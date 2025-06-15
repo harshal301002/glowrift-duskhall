@@ -23,31 +23,26 @@ export async function loadTexturesFromAtlas(
   spritesheetPath: string,
   atlasData: TextureAtlas,
 ): Promise<LoadedTextures> {
-  try {
-    const spritesheetTexture = await Assets.load(spritesheetPath);
-    const textures: LoadedTextures = {};
+  const spritesheetTexture = await Assets.load(spritesheetPath);
+  const textures: LoadedTextures = {};
 
-    Object.keys(atlasData).forEach((key) => {
-      const frameData = atlasData[key];
-      const texture = new Texture({
-        source: spritesheetTexture.source,
-        frame: new Rectangle(
-          frameData.x,
-          frameData.y,
-          frameData.width,
-          frameData.height,
-        ),
-      });
-
-      const spriteName = key.split('/').pop()?.replace('.png', '') || '';
-      textures[spriteName] = texture;
+  Object.keys(atlasData).forEach((key) => {
+    const frameData = atlasData[key];
+    const texture = new Texture({
+      source: spritesheetTexture.source,
+      frame: new Rectangle(
+        frameData.x,
+        frameData.y,
+        frameData.width,
+        frameData.height,
+      ),
     });
 
-    return textures;
-  } catch (error) {
-    console.error(`Failed to load textures from ${spritesheetPath}:`, error);
-    throw error;
-  }
+    const spriteName = key.split('/').pop()?.replace('.png', '') || '';
+    textures[spriteName] = texture;
+  });
+
+  return textures;
 }
 
 /**

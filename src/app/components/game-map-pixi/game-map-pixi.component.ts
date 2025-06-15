@@ -30,6 +30,7 @@ import {
 } from '../../helpers';
 import { WorldLocation } from '../../interfaces';
 import { ContentService } from '../../services/content.service';
+import { LoggerService } from '../../services/logger.service';
 
 @Component({
   selector: 'app-game-map-pixi',
@@ -42,6 +43,8 @@ export class GameMapPixiComponent implements OnInit, OnDestroy {
   pixiContainer = viewChild<ElementRef>('pixiContainer');
 
   private contentService = inject(ContentService);
+  private loggerService = inject(LoggerService);
+
   private app?: Application;
   private mapContainer?: Container;
   private terrainTextures: LoadedTextures = {};
@@ -137,7 +140,7 @@ export class GameMapPixiComponent implements OnInit, OnDestroy {
       this.checkTexture = claimTextures.checkTexture;
       this.xTexture = claimTextures.xTexture;
     } catch (error) {
-      console.error('Failed to load textures:', error);
+      this.loggerService.error('Failed to load textures:', error);
     }
   }
 
