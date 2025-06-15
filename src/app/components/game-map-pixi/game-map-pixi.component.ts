@@ -133,7 +133,11 @@ export class GameMapPixiComponent implements OnInit, OnDestroy {
 
   private async loadTextures() {
     try {
-      const textures = await loadGameMapTextures(this.contentService);
+      const artAtlases = this.contentService.artAtlases();
+      const textures = await loadGameMapTextures(
+        artAtlases['world-terrain'],
+        artAtlases['world-object'],
+      );
       this.terrainTextures = textures.terrainTextures;
       this.objectTextures = textures.objectTextures;
 

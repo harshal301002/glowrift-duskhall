@@ -49,8 +49,8 @@ export class GameSetupWorldComponent implements OnInit {
     computed(() => pickSpriteForHeroName(this.heroNames[3]())),
   ];
 
+  public selectedWorldSize = signal<WorldConfig>(this.allWorldSizes[0]);
   public isGeneratingWorld = signal<boolean>(false);
-
   public worldSeed = signal<string | null>(null);
 
   ngOnInit() {
@@ -59,7 +59,7 @@ export class GameSetupWorldComponent implements OnInit {
     });
   }
 
-  public createWorld(config: WorldConfig): void {
+  public createWorld(): void {
     this.isGeneratingWorld.set(true);
     closeAllMenus();
 
@@ -74,7 +74,7 @@ export class GameSetupWorldComponent implements OnInit {
       });
     }
 
-    startGame(config);
+    startGame(this.selectedWorldSize());
 
     this.router.navigate(['/game']);
 
