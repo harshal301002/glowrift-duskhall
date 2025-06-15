@@ -74,9 +74,9 @@ export function createGameMapContainers(app: Application): {
  */
 export function resetContainerPositions(...containers: Container[]): void {
   containers.forEach((container) => {
-    if (container) {
-      container.x = 0;
-      container.y = 0;
-    }
+    if (!container) return;
+
+    container.x = 0;
+    container.y = 0;
   });
 }
