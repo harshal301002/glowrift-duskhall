@@ -1,20 +1,16 @@
 <div class="flex justify-start items-center h-full p-2 flex-col gap-2">
-  <div class="h-20"></div>
-
-  <div class="xl:w-1/4 w-1/2">
-    <div class="card bg-base-100 h-[200px]">
+  <div class="w-full max-w-lg">
+    <div class="card bg-base-100">
       <div class="card-body items-center justify-between">
         <div class="card-title text-center flex flex-col">Heroes</div>
-
         <div class="card-actions pt-3 flex flex-row gap-2">
-          <div class="flex flex-row justify-center gap-2">
+          <div class="flex flex-row justify-center gap-2 flex-wrap">
             @for(name of heroNames; track $index) {
             <div class="min-w-[128px] flex flex-col gap-2 items-center">
               <app-atlas-animation
                 [assetName]="heroSprites[$index]()"
                 [spritesheet]="'hero'"
               ></app-atlas-animation>
-
               <button
                 class="btn btn-info btn-block"
                 [swal]="renameSwal"
@@ -24,7 +20,6 @@
               >
                 {{ name() }}
               </button>
-
               <swal
                 #renameSwal
                 title="Rename Hero"
@@ -43,52 +38,48 @@
       </div>
     </div>
   </div>
-
-  <div class="xl:w-1/4 w-1/2">
-    <div class="card bg-base-100 h-[200px]">
+  <div class="w-full max-w-lg">
+    <div class="card bg-base-100">
       <div class="card-body items-center justify-between">
         <div class="card-title text-center flex flex-col">World Size</div>
-
         <div class="flex flex-row justify-center gap-2">
           Smaller worlds are less challenging than larger ones.
         </div>
-
-        @if(isGeneratingWorld()) {
-        <div class="card-actions pt-3 flex flex-row gap-2">
-          <span class="loading loading-spinner loading-sm"></span>
-
-          Generating world...
-        </div>
-
-        } @else {
-        <div class="card-actions pt-3 flex flex-row gap-2">
+        <div class="card-actions pt-3 flex flex-row gap-2 justify-center">
           @for(config of allWorldSizes; track $index) {
           <div class="min-w-[128px]">
-            <button
-              class="btn btn-primary btn-block"
+            <input
+              type="radio"
+              name="worldSize"
+              [id]="'worldSize-' + $index"
+              [value]="config"
+              [(ngModel)]="selectedWorldSize"
+              class="hidden"
+            />
+            <label
+              [for]="'worldSize-' + $index"
+              class="btn btn-block btn-primary"
+              [class.btn-secondary]="selectedWorldSize()?.id === config.id"
               appAnalyticsClick="Setup:World:{{ config.name }}"
-              (click)="createWorld(config)"
               appSfx="ui-click"
               [sfxOffset]="$index"
               [sfxTrigger]="['click', 'hover']"
             >
               {{ config.name }}
-            </button>
+            </label>
           </div>
           }
         </div>
-        }
       </div>
     </div>
   </div>
-
-  <div class="xl:w-1/4 w-1/2">
+  <div class="w-full max-w-lg">
     <div class="card bg-base-100">
       <div class="card-body items-center justify-between">
         <div class="card-title text-center flex flex-col">World Seed</div>
         <div class="flex flex-row justify-center gap-2">
           The world seed is used to generate the world. You can use a custom
-          seed or let the game generate one for you.
+          seed or leave it empty to let the game generate one for you.
         </div>
         <input
           type="text"
@@ -96,6 +87,23 @@
           placeholder="Enter world seed..."
           [(ngModel)]="worldSeed"
         />
+      </div>
+    </div>
+  </div>
+  <div class="w-full max-w-lg">
+    <div class="card bg-base-100">
+      <div class="card-body items-center justify-between">
+        <button
+          class="btn btn-primary btn-block"
+          (click)="createWorld()"
+          [disabled]="!selectedWorldSize() || isGeneratingWorld()"
+          appSfx="ui-click"
+          [sfxTrigger]="['click', 'hover']"
+        >
+          @if(isGeneratingWorld()) {
+          <span class="loading loading-spinner loading-sm"></span>
+          Generating World... } @else { Start Game }
+        </button>
       </div>
     </div>
   </div>
