@@ -3,8 +3,14 @@
 <app-card-page>
   <span header class="flex gap-2 items-center">
     <div class="relative w-[64px] h-[64px]">
-      <app-atlas-image spritesheet="world-object" [assetName]="locationData.objectSprite"></app-atlas-image>
-      <app-marker-location-claim class="absolute bottom-0 left-0" [location]="locationData"></app-marker-location-claim>
+      <app-atlas-image
+        spritesheet="world-object"
+        [assetName]="locationData.objectSprite"
+      ></app-atlas-image>
+      <app-marker-location-claim
+        class="absolute bottom-0 left-0"
+        [location]="locationData"
+      ></app-marker-location-claim>
     </div>
 
     <div>
@@ -16,7 +22,6 @@
         Encounter Level: {{ locationData.encounterLevel }}
       </div>
     </div>
-
   </span>
 
   <div pageactions>
@@ -28,54 +33,65 @@
   <div class="h-full flex flex-row">
     <div class="h-full flex flex-1 flex-col gap-2 justify-between">
       <div>
-        <div class="mt-1 text-lg">
-          Guardians
-        </div>
+        <div class="mt-1 text-lg">Guardians</div>
 
         <div class="w-full grid grid-cols-3 gap-2">
-          @for(guardian of guardians(); track $index) {
-          <div>
-            <app-location-guardian-display [guardian]="guardian"></app-location-guardian-display>
-          </div>
+          @for (guardian of guardians(); track $index) {
+            <div>
+              <app-location-guardian-display
+                [guardian]="guardian"
+              ></app-location-guardian-display>
+            </div>
           } @empty {
-          <div class="col-span-3">None</div>
+            <div class="col-span-3">None</div>
           }
         </div>
       </div>
 
-
       <div class="flex flex-col gap-2">
-        @if(isAtThisNode()) {
-        <div class="flex gap-2 items-center">
-          <app-icon name="gameSevenPointedStar" size="1.5em"></app-icon> You are here!
-        </div>
+        @if (isAtThisNode()) {
+          <div class="flex gap-2 items-center">
+            <app-icon name="gameSevenPointedStar" size="1.5em"></app-icon>
+            You are here!
+          </div>
 
-        <app-location-claim-progress-text></app-location-claim-progress-text>
+          <app-location-claim-progress-text></app-location-claim-progress-text>
         }
 
-        @if(nodeLostTime() > 0) {
-        <app-countdown [secondsLeft]="nodeLostTime()" label="Node Lost In"></app-countdown>
+        @if (nodeLostTime() > 0) {
+          <app-countdown
+            [secondsLeft]="nodeLostTime()"
+            label="Node Lost In"
+          ></app-countdown>
         }
 
-        <button class="btn btn-info btn-block" [disabled]="!canTravelToThisNode()" (click)="travelToThisNode()">
-          <app-countdown [secondsLeft]="travelTimeSeconds()" [parenthesize]="true" label="Travel"></app-countdown>
+        <button
+          class="btn btn-info btn-block"
+          [disabled]="!canTravelToThisNode()"
+          (click)="travelToThisNode()"
+        >
+          <app-countdown
+            [secondsLeft]="travelTimeSeconds()"
+            [parenthesize]="true"
+            label="Travel"
+          ></app-countdown>
         </button>
       </div>
     </div>
 
     <div class="h-full flex flex-1 flex-col gap-2">
       <div>
-        <div class="mt-1 text-lg">
-          Loot
-        </div>
+        <div class="mt-1 text-lg">Loot</div>
 
         <div class="w-full grid grid-cols-3 gap-2">
-          @for(item of loot(); track $index) {
-          <div>
-            <app-location-loot-display [loot]="item"></app-location-loot-display>
-          </div>
+          @for (item of loot(); track $index) {
+            <div>
+              <app-location-loot-display
+                [loot]="item"
+              ></app-location-loot-display>
+            </div>
           } @empty {
-          <div class="col-span-3">None</div>
+            <div class="col-span-3">None</div>
           }
         </div>
       </div>
@@ -84,27 +100,30 @@
     <div class="h-full flex flex-1 flex-col gap-2">
       <div class="text-lg">Elements Present</div>
 
-      @for(el of elements(); track $index) {
-      <div class="flex flex-row gap-2 items-center min-w-[250px] max-h-[21px]">
-        <app-icon-element [element]="el.element"></app-icon-element>
-        <div class="min-w-[128px] flex-1">{{ el.element| titlecase }}</div>
-        <div class="min-w-[56px]">{{ el.intensity }}%</div>
-      </div>
-
+      @for (el of elements(); track $index) {
+        <div
+          class="flex flex-row gap-2 items-center min-w-[250px] max-h-[21px]"
+        >
+          <app-icon-element [element]="el.element"></app-icon-element>
+          <div class="min-w-[128px] flex-1">{{ el.element | titlecase }}</div>
+          <div class="min-w-[56px]">{{ el.intensity }}%</div>
+        </div>
       } @empty {
-      None
+        None
       }
 
       <div class="text-lg">Resources Generated Per Tick</div>
 
-      @for(res of resourcesGenerated(); track $index) {
-      <div class="flex flex-row gap-2 items-center min-w-[250px] max-h-[21px]">
-        <app-icon-currency [currency]="res.resource"></app-icon-currency>
-        <div class="min-w-[128px] flex-1">{{ res.resource }}</div>
-        <div class="min-w-[56px]">+{{ res.amount }}</div>
-      </div>
+      @for (res of resourcesGenerated(); track $index) {
+        <div
+          class="flex flex-row gap-2 items-center min-w-[250px] max-h-[21px]"
+        >
+          <app-icon-currency [currency]="res.resource"></app-icon-currency>
+          <div class="min-w-[128px] flex-1">{{ res.resource }}</div>
+          <div class="min-w-[56px]">+{{ res.amount }}</div>
+        </div>
       } @empty {
-      None
+        None
       }
     </div>
 
@@ -112,5 +131,4 @@
       <div></div>
     </div>
   </div>
-
 </app-card-page>

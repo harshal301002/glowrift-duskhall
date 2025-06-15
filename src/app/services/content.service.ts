@@ -120,10 +120,13 @@ export class ContentService {
     };
     const allJsons = Object.keys(contentTypeObject);
 
-    const jsonMaps = allJsons.reduce((prev, cur) => {
-      prev[cur] = this.http.get<Content[]>(this.toJSONURL(cur));
-      return prev;
-    }, {} as Record<string, Observable<Content[]>>);
+    const jsonMaps = allJsons.reduce(
+      (prev, cur) => {
+        prev[cur] = this.http.get<Content[]>(this.toJSONURL(cur));
+        return prev;
+      },
+      {} as Record<string, Observable<Content[]>>,
+    );
 
     forkJoin(jsonMaps).subscribe((assets) => {
       this.unfurlAssets(assets as unknown as Record<string, Content[]>);

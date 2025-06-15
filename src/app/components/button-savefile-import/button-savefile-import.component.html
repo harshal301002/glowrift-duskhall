@@ -1,2 +1,14 @@
-<button class="btn btn-warning" (click)="characterImporter.click()" appAnalyticsClick="Savefile:Import">Import</button>
-<input type="file" #characterImporter class="hidden" accept=".grdh" (change)="importSavefile($event)" />
+<button
+  class="btn btn-warning"
+  (click)="characterImporter.click()"
+  appAnalyticsClick="Savefile:Import"
+>
+  Import
+</button>
+<input
+  type="file"
+  #characterImporter
+  class="hidden"
+  accept=".grdh"
+  (change)="importSavefile($event)"
+/>

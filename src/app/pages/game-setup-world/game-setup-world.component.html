@@ -5,7 +5,7 @@
         <div class="card-title text-center flex flex-col">Heroes</div>
         <div class="card-actions pt-3 flex flex-row gap-2">
           <div class="flex flex-row justify-center gap-2 flex-wrap">
-            @for(name of heroNames; track $index) {
+            @for (name of heroNames; track $index) {
             <div class="min-w-[128px] flex flex-col gap-2 items-center">
               <app-atlas-animation
                 [assetName]="heroSprites[$index]()"
@@ -38,6 +38,7 @@
       </div>
     </div>
   </div>
+
   <div class="w-full max-w-lg">
     <div class="card bg-base-100">
       <div class="card-body items-center justify-between">
@@ -46,7 +47,7 @@
           Smaller worlds are less challenging than larger ones.
         </div>
         <div class="card-actions pt-3 flex flex-row gap-2 justify-center">
-          @for(config of allWorldSizes; track $index) {
+          @for (config of allWorldSizes; track $index) {
           <div class="min-w-[128px]">
             <input
               type="radio"
@@ -73,6 +74,7 @@
       </div>
     </div>
   </div>
+
   <div class="w-full max-w-lg">
     <div class="card bg-base-100">
       <div class="card-body items-center justify-between">
@@ -100,7 +102,7 @@
           appSfx="ui-click"
           [sfxTrigger]="['click', 'hover']"
         >
-          @if(isGeneratingWorld()) {
+          @if (isGeneratingWorld()) {
           <span class="loading loading-spinner loading-sm"></span>
           Generating World... } @else { Start Game }
         </button>
