@@ -35,22 +35,23 @@ export async function loadTexturesFromAtlas(
 
 /**
  * Loads both terrain and object textures for the game map
- * @param contentService Service containing art atlas data
+ * @param terrainAtlasData Atlas data for terrain sprites
+ * @param objectAtlasData Atlas data for object sprites
  * @returns Object containing both terrain and object textures
  */
-export async function loadGameMapTextures(contentService: any): Promise<{
+export async function loadGameMapTextures(
+  terrainAtlasData: TextureAtlas,
+  objectAtlasData: TextureAtlas,
+): Promise<{
   terrainTextures: LoadedTextures;
   objectTextures: LoadedTextures;
 }> {
   const [terrainTextures, objectTextures] = await Promise.all([
     loadTexturesFromAtlas(
       'art/spritesheets/world-terrain.png',
-      contentService.artAtlases()['world-terrain'],
+      terrainAtlasData,
     ),
-    loadTexturesFromAtlas(
-      'art/spritesheets/world-object.png',
-      contentService.artAtlases()['world-object'],
-    ),
+    loadTexturesFromAtlas('art/spritesheets/world-object.png', objectAtlasData),
   ]);
 
   return { terrainTextures, objectTextures };
