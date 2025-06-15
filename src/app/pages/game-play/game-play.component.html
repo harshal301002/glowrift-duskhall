@@ -1,10 +1,6 @@
 <div class="game-container relative">
   <app-game-map-pixi class="absolute inset-0 map-layer"></app-game-map-pixi>
 
-  <app-game-camera-controller
-    class="absolute inset-0 camera-layer pointer-events-none"
-  ></app-game-camera-controller>
-
   @if(showOptions()) {
   <div class="absolute inset-0 p-8">
     <app-panel-options class="absolute inset-0 panel-layer"></app-panel-options>
