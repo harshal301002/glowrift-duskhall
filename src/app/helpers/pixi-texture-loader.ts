@@ -1,17 +1,5 @@
 import { Assets, Rectangle, Texture } from 'pixi.js';
-
-export interface TextureAtlas {
-  [key: string]: {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  };
-}
-
-export interface LoadedTextures {
-  [spriteName: string]: Texture;
-}
+import { LoadedTextures, TextureAtlas } from '../interfaces/texture';
 
 /**
  * Loads textures from a spritesheet and atlas data

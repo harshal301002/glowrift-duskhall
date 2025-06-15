@@ -6,6 +6,4 @@ export interface NodeSpriteData {
   claimIndicator?: Sprite;
 }
 
-export interface NodeSprites {
-  [nodeKey: string]: NodeSpriteData;
-}
+export type NodeSprites = Record<string, NodeSpriteData>;
