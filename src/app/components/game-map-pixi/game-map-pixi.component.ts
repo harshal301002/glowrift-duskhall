@@ -91,12 +91,8 @@ export class GameMapPixiComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.resizeObserver) {
-      this.resizeObserver.disconnect();
-    }
-    if (this.app) {
-      this.app.destroy(true);
-    }
+    this.resizeObserver?.disconnect();
+    this.app?.destroy(true);
   }
 
   private async initPixi() {
