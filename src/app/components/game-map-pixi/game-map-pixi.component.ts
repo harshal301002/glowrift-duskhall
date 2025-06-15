@@ -55,6 +55,10 @@ export class GameMapPixiComponent implements OnInit, OnDestroy {
   private playerIndicatorContainer?: Container;
   private resizeObserver?: ResizeObserver;
 
+  private zoomLevel = 1.0;
+  private readonly minZoom = 0.5;
+  private readonly maxZoom = 1.0; // 1.0 = 64x64 tiles
+
   public nodeWidth = computed(() =>
     Math.min(gamestate().world.width, windowWidthTiles() + 1),
   );
@@ -129,6 +133,47 @@ export class GameMapPixiComponent implements OnInit, OnDestroy {
       viewportWidth: this.nodeWidth(),
       viewportHeight: this.nodeHeight(),
     });
+
+    // Add mouse wheel zoom
+    const canvas = this.app.view as HTMLCanvasElement;
+    canvas.addEventListener('wheel', (event) => this.onWheel(event));
+  }
+
+  private onWheel(event: WheelEvent) {
+    if (!this.mapContainer || !this.app) return;
+    event.preventDefault();
+
+    // Calculate new zoom level
+    const oldZoom = this.zoomLevel;
+    const zoomDelta = event.deltaY < 0 ? 0.1 : -0.1;
+    let newZoom = this.zoomLevel + zoomDelta;
+    newZoom = Math.max(this.minZoom, Math.min(this.maxZoom, newZoom));
+    if (newZoom === oldZoom) return;
+    this.zoomLevel = newZoom;
+
+    // Get mouse position relative to the map container
+    const rect = (this.app.view as HTMLCanvasElement).getBoundingClientRect();
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+
+    // Calculate world position under cursor before zoom
+    const mapPos = this.mapContainer.position;
+    const worldX = (mouseX - mapPos.x) / oldZoom;
+    const worldY = (mouseY - mapPos.y) / oldZoom;
+
+    // Apply new zoom
+    this.mapContainer.scale.set(this.zoomLevel);
+    this.playerIndicatorContainer?.scale.set(this.zoomLevel);
+
+    // Adjust position so the world point under the cursor stays under the cursor
+    this.mapContainer.position.set(
+      mouseX - worldX * this.zoomLevel,
+      mouseY - worldY * this.zoomLevel,
+    );
+    this.playerIndicatorContainer?.position.set(
+      this.mapContainer.position.x,
+      this.mapContainer.position.y,
+    );
   }
 
   private async loadTextures() {
