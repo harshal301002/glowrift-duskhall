@@ -1,5 +1,6 @@
 import { Assets, Rectangle, Texture } from 'pixi.js';
 import { LoadedTextures, TextureAtlas } from '../interfaces/texture';
+import { ContentService } from '../services/content.service';
 
 /**
  * Loads textures from a spritesheet and atlas data
@@ -38,7 +39,9 @@ export async function loadTexturesFromAtlas(
  * @param contentService Service containing art atlas data
  * @returns Object containing both terrain and object textures
  */
-export async function loadGameMapTextures(contentService: any): Promise<{
+export async function loadGameMapTextures(
+  contentService: ContentService,
+): Promise<{
   terrainTextures: LoadedTextures;
   objectTextures: LoadedTextures;
 }> {

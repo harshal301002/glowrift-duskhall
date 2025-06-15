@@ -54,7 +54,7 @@ export function processCameraDrag(
   newCamera: CameraState;
   remainingDrag: { x: number; y: number };
 } {
-  let newCamera = { ...currentCamera };
+  const newCamera = { ...currentCamera };
   const remainingDrag = { ...dragDelta };
 
   if (Math.abs(dragDelta.x) >= tileSize) {
