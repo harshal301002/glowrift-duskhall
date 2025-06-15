@@ -109,6 +109,7 @@ export class GameMapPixiComponent implements OnInit, OnDestroy {
     const containers = createGameMapContainers(this.app);
     this.mapContainer = containers.mapContainer;
     this.playerIndicatorContainer = containers.playerIndicatorContainer;
+    this.mapContainer.cullable = true;
 
     this.resizeObserver = setupResponsiveCanvas(
       this.app,

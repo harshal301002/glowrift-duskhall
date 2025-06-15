@@ -35,6 +35,7 @@ export function createNodeSprites(
   const terrainSprite = new Sprite(terrainTexture);
   terrainSprite.x = pixelX;
   terrainSprite.y = pixelY;
+  terrainSprite.cullable = true;
   mapContainer.addChild(terrainSprite);
 
   const spriteData: NodeSpriteData = { terrain: terrainSprite };
@@ -47,6 +48,7 @@ export function createNodeSprites(
       objectSprite.y = pixelY;
       objectSprite.interactive = true;
       objectSprite.cursor = 'pointer';
+      objectSprite.cullable = true;
 
       if (onObjectClick) {
         objectSprite.on('pointerdown', () => {
@@ -67,6 +69,7 @@ export function createNodeSprites(
       checkTexture,
       xTexture,
     );
+    claimIndicator.cullable = true;
     mapContainer.addChild(claimIndicator);
     spriteData.claimIndicator = claimIndicator;
   }
