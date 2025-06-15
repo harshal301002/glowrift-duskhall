@@ -7,30 +7,15 @@
           <div class="flex flex-row justify-center gap-2 flex-wrap">
             @for(name of heroNames; track $index) {
             <div class="min-w-[128px] flex flex-col gap-2 items-center">
-              <app-atlas-animation
-                [assetName]="heroSprites[$index]()"
-                [spritesheet]="'hero'"
-              ></app-atlas-animation>
-              <button
-                class="btn btn-info btn-block"
-                [swal]="renameSwal"
-                appSfx="ui-click"
-                [sfxOffset]="$index"
-                [sfxTrigger]="['click', 'hover']"
-              >
+              <app-atlas-animation [assetName]="heroSprites[$index]()" [spritesheet]="'hero'"></app-atlas-animation>
+              <button class="btn btn-info btn-block" [swal]="renameSwal" appSfx="ui-click" [sfxOffset]="$index"
+                [sfxTrigger]="['click', 'hover']">
                 {{ name() }}
               </button>
-              <swal
-                #renameSwal
-                title="Rename Hero"
-                text="Choose a name for this hero!"
-                input="text"
-                inputPlaceholder="Enter new name..."
-                inputValue="{{ name() }}"
-                [inputAttributes]="{ minlength: '2', maxlength: '12' }"
-                icon="warning"
-                (confirm)="renameHero($index, $event)"
-              ></swal>
+              <swal #renameSwal title="Rename Hero" text="Choose a name for this hero!" input="text"
+                inputPlaceholder="Enter new name..." inputValue="{{ name() }}"
+                [inputAttributes]="{ minlength: '2', maxlength: '12' }" icon="warning"
+                (confirm)="renameHero($index, $event)"></swal>
             </div>
             }
           </div>
@@ -38,6 +23,7 @@
       </div>
     </div>
   </div>
+
   <div class="w-full max-w-lg">
     <div class="card bg-base-100">
       <div class="card-body items-center justify-between">
@@ -48,23 +34,12 @@
         <div class="card-actions pt-3 flex flex-row gap-2 justify-center">
           @for(config of allWorldSizes; track $index) {
           <div class="min-w-[128px]">
-            <input
-              type="radio"
-              name="worldSize"
-              [id]="'worldSize-' + $index"
-              [value]="config"
-              [(ngModel)]="selectedWorldSize"
-              class="hidden"
-            />
-            <label
-              [for]="'worldSize-' + $index"
-              class="btn btn-block btn-secondary"
-              [class.btn-outline]="selectedWorldSize()?.id !== config.id"
-              appAnalyticsClick="Setup:World:{{ config.name }}"
-              appSfx="ui-click"
-              [sfxOffset]="$index"
-              [sfxTrigger]="['click', 'hover']"
-            >
+            <input type="radio" name="worldSize" [id]="'worldSize-' + $index" [value]="config"
+              [(ngModel)]="selectedWorldSize" class="hidden" />
+            <label [for]="'worldSize-' + $index" class="btn btn-block btn-secondary"
+              [class.btn-outline]="selectedWorldSize().id !== config.id"
+              appAnalyticsClick="Setup:World:{{ config.name }}" appSfx="ui-click" [sfxOffset]="$index"
+              [sfxTrigger]="['click', 'hover']">
               {{ config.name }}
             </label>
           </div>
@@ -73,6 +48,7 @@
       </div>
     </div>
   </div>
+
   <div class="w-full max-w-lg">
     <div class="card bg-base-100">
       <div class="card-body items-center justify-between">
@@ -81,25 +57,16 @@
           The world seed is used to generate the world. You can use a custom
           seed or leave it empty to let the game generate one for you.
         </div>
-        <input
-          type="text"
-          class="input input-bordered w-full"
-          placeholder="Enter world seed..."
-          [(ngModel)]="worldSeed"
-        />
+        <input type="text" class="input input-bordered w-full" placeholder="Enter world seed..."
+          [(ngModel)]="worldSeed" />
       </div>
     </div>
   </div>
   <div class="w-full max-w-lg">
     <div class="card bg-base-100">
       <div class="card-body items-center justify-between">
-        <button
-          class="btn btn-primary btn-block"
-          (click)="createWorld()"
-          [disabled]="!selectedWorldSize() || isGeneratingWorld()"
-          appSfx="ui-click"
-          [sfxTrigger]="['click', 'hover']"
-        >
+        <button class="btn btn-primary btn-block" (click)="createWorld()"
+          [disabled]="!selectedWorldSize() || isGeneratingWorld()" appSfx="ui-click" [sfxTrigger]="['click', 'hover']">
           @if(isGeneratingWorld()) {
           <span class="loading loading-spinner loading-sm"></span>
           Generating World... } @else { Start Game }
