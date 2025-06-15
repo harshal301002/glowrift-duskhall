@@ -1,10 +1,12 @@
 <span>
-  @if(label(); as label) {
-  <span>{{ label }}</span>
+  @if (label(); as label) {
+    <span>{{ label }}</span>
   }
 
   <span class="ml-1">
-    @if(parenthesize()) {&lpar;}
+    @if (parenthesize()) {
+      &lpar;
+    }
 
     <span class="countdown m">
       <span [style.--value]="minutesUntilReset()"></span>
@@ -14,6 +16,8 @@
       <span [style.--value]="secondsUntilReset()"></span>
     </span>
 
-    @if(parenthesize()) {&rpar;}
+    @if (parenthesize()) {
+      &rpar;
+    }
   </span>
 </span>

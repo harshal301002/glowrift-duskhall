@@ -3,11 +3,14 @@
 
   <div pageactions>
     <div class="join mt-2">
-      @for(type of allItemTypes; track type.type) {
-      <button class="btn btn-info join-item" [class.btn-outline]="currentItemType() !== type.type"
-        (click)="changeItemType(type.type)">
-        {{ type.name }} ({{ itemCounts()[type.type] }})
-      </button>
+      @for (type of allItemTypes; track type.type) {
+        <button
+          class="btn btn-info join-item"
+          [class.btn-outline]="currentItemType() !== type.type"
+          (click)="changeItemType(type.type)"
+        >
+          {{ type.name }} ({{ itemCounts()[type.type] }})
+        </button>
       }
     </div>
 
@@ -17,11 +20,16 @@
   </div>
 
   <div class="flex flex-row inventory-scroller overflow-y-auto p-2">
-    @if(currentItemType() !== 'skill') {
-    <app-inventory-grid-item [items]="items()" [allowedActions]="['Salvage']">
-    </app-inventory-grid-item>
+    @if (currentItemType() !== 'skill') {
+      <app-inventory-grid-item
+        [items]="items()"
+        [allowedActions]="['Salvage']"
+      ></app-inventory-grid-item>
     } @else {
-    <app-inventory-grid-skill [skills]="skills()" [allowedActions]="['Salvage']"></app-inventory-grid-skill>
+      <app-inventory-grid-skill
+        [skills]="skills()"
+        [allowedActions]="['Salvage']"
+      ></app-inventory-grid-skill>
     }
   </div>
 </app-card-page>

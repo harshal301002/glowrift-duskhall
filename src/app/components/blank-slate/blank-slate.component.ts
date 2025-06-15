@@ -4,8 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-blank-slate',
   imports: [],
   templateUrl: './blank-slate.component.html',
-  styleUrl: './blank-slate.component.scss'
+  styleUrl: './blank-slate.component.scss',
 })
-export class BlankSlateComponent {
-
-}
+export class BlankSlateComponent {}

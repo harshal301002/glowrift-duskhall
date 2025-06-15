@@ -1,56 +1,65 @@
 <div class="flex flex-row gap-2">
-
   <div class="flex-1">
-
     <div class="card bg-base-100 foreground shadow-xl mt-3">
       <div class="card-body">
-        <div class="card-title">
-          Notifications
-        </div>
+        <div class="card-title">Notifications</div>
 
         <div class="form-control">
           <label class="label cursor-pointer label-checkbox">
-            <input type="checkbox" [checked]="notificationsEnabled()" class="checkbox checkbox-secondary"
-              (click)="toggleNotifications()" />
+            <input
+              type="checkbox"
+              [checked]="notificationsEnabled()"
+              class="checkbox checkbox-secondary"
+              (click)="toggleNotifications()"
+            />
             <span class="label-text">Show All</span>
           </label>
         </div>
 
         <div class="form-control">
           <label class="label cursor-pointer label-checkbox">
-            <input type="checkbox" [checked]="notificationCategoriesEnabled().includes('Travel')"
-              class="checkbox checkbox-secondary" (click)="toggleNotificationCategories('Travel')"
-              [disabled]="!notificationsEnabled()" />
+            <input
+              type="checkbox"
+              [checked]="notificationCategoriesEnabled().includes('Travel')"
+              class="checkbox checkbox-secondary"
+              (click)="toggleNotificationCategories('Travel')"
+              [disabled]="!notificationsEnabled()"
+            />
             <span class="label-text">Show Travel</span>
           </label>
         </div>
 
         <div class="form-control">
           <label class="label cursor-pointer label-checkbox">
-            <input type="checkbox" [checked]="notificationCategoriesEnabled().includes('LocationClaim')"
-              class="checkbox checkbox-secondary" (click)="toggleNotificationCategories('LocationClaim')"
-              [disabled]="!notificationsEnabled()" />
+            <input
+              type="checkbox"
+              [checked]="
+                notificationCategoriesEnabled().includes('LocationClaim')
+              "
+              class="checkbox checkbox-secondary"
+              (click)="toggleNotificationCategories('LocationClaim')"
+              [disabled]="!notificationsEnabled()"
+            />
             <span class="label-text">Show Location Claim</span>
           </label>
         </div>
-
       </div>
-
     </div>
   </div>
 
   <div class="flex-1">
-
     <div class="card bg-base-100 foreground shadow-xl mt-3">
       <div class="card-body">
-        <div class="card-title">
-          Audio
-        </div>
+        <div class="card-title">Audio</div>
 
         <div class="form-control">
           <label class="label cursor-pointer label-checkbox">
-            <input type="checkbox" [checked]="getOption('audioPlay')" class="checkbox checkbox-secondary"
-              (click)="setOption('audioPlay', !getOption('audioPlay'))" />
+            <input
+              type="checkbox"
+              [checked]="getOption('audioPlay')"
+              class="checkbox checkbox-secondary"
+              (click)="setOption('audioPlay', !getOption('audioPlay'))"
+            />
             <span class="label-text">Play Audio</span>
           </label>
         </div>
@@ -58,38 +67,45 @@
         <div class="form-control">
           <label class="label cursor-pointer label-checkbox">
             <span class="label-text !ml-0 mr-2">SFX Volume</span>
-            <input #sfxVolume type="range" [min]="0" [max]="1" [step]="0.05" [value]="getOption('volume')"
-              (change)="setOption('volume', sfxVolume.valueAsNumber)" class="range range-secondary" />
+            <input
+              #sfxVolume
+              type="range"
+              [min]="0"
+              [max]="1"
+              [step]="0.05"
+              [value]="getOption('volume')"
+              (change)="setOption('volume', sfxVolume.valueAsNumber)"
+              class="range range-secondary"
+            />
             <span class="ml-2">{{ getOption('volume') * 100 }}%</span>
           </label>
         </div>
-
       </div>
-
     </div>
   </div>
 
   <div class="flex-1 flex flex-col">
-
     <div class="card bg-base-100 foreground shadow-xl mt-3">
       <div class="card-body">
-        <div class="card-title">
-          UI Theme
-        </div>
+        <div class="card-title">UI Theme</div>
 
         <p class="mb-3">
-          Change the visuals of the game. Not every theme is tested equally, please report issues with specific themes.
+          Change the visuals of the game. Not every theme is tested equally,
+          please report issues with specific themes.
         </p>
 
-        <select class="select select-bordered select-xs mx-1" [(ngModel)]="currentTheme"
-          (ngModelChange)="changeTheme($event)">
-          @for(theme of themes; track $index) {
-          <option [value]="theme.name">{{ theme.name | titlecase }} ({{ theme.type }})</option>
+        <select
+          class="select select-bordered select-xs mx-1"
+          [(ngModel)]="currentTheme"
+          (ngModelChange)="changeTheme($event)"
+        >
+          @for (theme of themes; track $index) {
+            <option [value]="theme.name">
+              {{ theme.name | titlecase }} ({{ theme.type }})
+            </option>
           }
         </select>
       </div>
-
     </div>
   </div>
-
 </div>

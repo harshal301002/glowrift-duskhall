@@ -12,16 +12,23 @@
   <div class="navbar-center">
     <ul class="menu menu-horizontal px-1" appRequireSetup>
       <li>
-        <details [open]="shouldShowCurrencyList()" (click)="toggleCurrencyList()">
+        <details
+          [open]="shouldShowCurrencyList()"
+          (click)="toggleCurrencyList()"
+        >
           <summary class="!pl-2">
-            <app-marker-currency-current currency="Mana"></app-marker-currency-current>
+            <app-marker-currency-current
+              currency="Mana"
+            ></app-marker-currency-current>
           </summary>
 
           <ul class="bg-base-100 rounded-t-none p-2 z-51 !mt-0 !pe-8">
-            @for(currency of displayedCurrencies(); track $index) {
-            <app-marker-currency-current [currency]="currency"></app-marker-currency-current>
+            @for (currency of displayedCurrencies(); track $index) {
+              <app-marker-currency-current
+                [currency]="currency"
+              ></app-marker-currency-current>
             } @empty {
-            No other currencies
+              No other currencies
             }
           </ul>
         </details>
@@ -31,21 +38,33 @@
 
   <div class="navbar-end">
     <ul class="menu menu-horizontal px-1 flex gap-2">
-
-
       <li class="action-button" appRequireSetup>
-        <button class="btn btn-xs btn-info" [tp]="isPaused() ? 'Resume Game' : 'Pause Game'" (click)="togglePause()">
-          <app-icon [name]="isPaused() ? 'gamePlayButton' : 'gamePauseButton'" size="2em" color="#000"></app-icon>
+        <button
+          class="btn btn-xs btn-info"
+          [tp]="isPaused() ? 'Resume Game' : 'Pause Game'"
+          (click)="togglePause()"
+        >
+          <app-icon
+            [name]="isPaused() ? 'gamePlayButton' : 'gamePauseButton'"
+            size="2em"
+            color="#000"
+          ></app-icon>
         </button>
       </li>
 
-      @for(panel of panelConfigs; track $index) {
-      <li class="action-button" appRequireSetup>
-        <button class="btn btn-xs btn-accent" [tp]="panel.name" (click)="panel.clickCb()" appSfx="ui-click"
-          [sfxOffset]="$index" [sfxTrigger]="['click']">
-          <app-icon [name]="panel.icon" size="2em" color="#000"></app-icon>
-        </button>
-      </li>
+      @for (panel of panelConfigs; track $index) {
+        <li class="action-button" appRequireSetup>
+          <button
+            class="btn btn-xs btn-accent"
+            [tp]="panel.name"
+            (click)="panel.clickCb()"
+            appSfx="ui-click"
+            [sfxOffset]="$index"
+            [sfxTrigger]="['click']"
+          >
+            <app-icon [name]="panel.icon" size="2em" color="#000"></app-icon>
+          </button>
+        </li>
       }
 
       <li class="action-button">
@@ -57,6 +76,11 @@
   </div>
 </div>
 
-<swal #leaveSwal title="Go back to main menu?" icon="question" confirmButtonText="Yes, go back"
-  cancelButtonText="No, stay here" (confirm)="router.navigate(['..'])">
-</swal>
+<swal
+  #leaveSwal
+  title="Go back to main menu?"
+  icon="question"
+  confirmButtonText="Yes, go back"
+  cancelButtonText="No, stay here"
+  (confirm)="router.navigate(['..'])"
+></swal>

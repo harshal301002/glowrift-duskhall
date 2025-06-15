@@ -12,14 +12,14 @@ function isPageVisible(): boolean {
 
 type NotificationCategory = 'Error' | 'Success' | 'Travel' | 'LocationClaim';
 
-export type ToggleableCategory = Exclude<NotificationCategory, 'Error' | 'Success'>;
+export type ToggleableCategory = Exclude<
+  NotificationCategory,
+  'Error' | 'Success'
+>;
 
 export const enabledCategories = localStorageSignal<ToggleableCategory[]>(
   'enabledNotificationCategories',
-  [
-    'Travel', 
-    'LocationClaim'
-  ]
+  ['Travel', 'LocationClaim'],
 );
 
 const notification = new Subject<{
@@ -30,7 +30,12 @@ const notification = new Subject<{
 export const notification$ = notification.asObservable();
 
 export function notify(message: string, category: NotificationCategory): void {
-  if (!isPageVisible() || !canSendNotifications() || !enabledCategories().includes(category as ToggleableCategory)) return;
+  if (
+    !isPageVisible() ||
+    !canSendNotifications() ||
+    !enabledCategories().includes(category as ToggleableCategory)
+  )
+    return;
   notification.next({ message, type: 'show', category });
 }
 

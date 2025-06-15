@@ -1,23 +1,36 @@
 @let itemData = item();
 
-<div class="h-[64px] w-[64px] bg-gray-400 outline outline-2 z-0 absolute"
-  [class.outline-white-900]="itemData.rarity === 'Common'" [class.outline-green-400]="itemData.rarity === 'Uncommon'"
-  [class.outline-blue-400]="itemData.rarity === 'Rare'" [class.outline-purple-400]="itemData.rarity === 'Mystical'"
-  [class.outline-yellow-400]="itemData.rarity === 'Legendary'" [class.outline-rose-400]="itemData.rarity === 'Unique'">
-</div>
+<div
+  class="h-[64px] w-[64px] bg-gray-400 outline outline-2 z-0 absolute"
+  [class.outline-white-900]="itemData.rarity === 'Common'"
+  [class.outline-green-400]="itemData.rarity === 'Uncommon'"
+  [class.outline-blue-400]="itemData.rarity === 'Rare'"
+  [class.outline-purple-400]="itemData.rarity === 'Mystical'"
+  [class.outline-yellow-400]="itemData.rarity === 'Legendary'"
+  [class.outline-rose-400]="itemData.rarity === 'Unique'"
+></div>
 
-<app-atlas-image class="z-10 absolute" [assetName]="itemData.sprite" [spritesheet]="itemData.__type" [tp]="itemInfo"
-  [tpMaxWidth]="500"></app-atlas-image>
+<app-atlas-image
+  class="z-10 absolute"
+  [assetName]="itemData.sprite"
+  [spritesheet]="itemData.__type"
+  [tp]="itemInfo"
+  [tpMaxWidth]="500"
+></app-atlas-image>
 
-<div class="z-20 absolute bottom-0 left-[2px] text-xs font-bold italic text-black text-shadow-white">
+<div
+  class="z-20 absolute bottom-0 left-[2px] text-xs font-bold italic text-black text-shadow-white"
+>
   Lv. {{ itemData.dropLevel }}
 </div>
 
 <ng-template #itemInfo let-hide>
-  @if(compareItem(); as compareWith) {
-  <app-item-stats-compare [item]="itemData" [compareWith]="compareWith"></app-item-stats-compare>
-
+  @if (compareItem(); as compareWith) {
+    <app-item-stats-compare
+      [item]="itemData"
+      [compareWith]="compareWith"
+    ></app-item-stats-compare>
   } @else {
-  <app-item-stats [item]="itemData"></app-item-stats>
+    <app-item-stats [item]="itemData"></app-item-stats>
   }
 </ng-template>

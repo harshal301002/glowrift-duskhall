@@ -12,29 +12,34 @@
   </div>
 
   <div role="tablist" class="tabs tabs-boxed">
-    @for(tab of tabs; track $index) {
-    <button role="tab" class="tab" [class.tab-active]="currentTab === tab.link" (click)="activeTab.set(tab.link)"
-      (keydown)="activeTab.set(tab.link)" [appAnalyticsClick]="'Options:Navigate:' + tab.name"
-      [class.hidden]="!tab.showIf()">
-      {{ tab.name }}
-    </button>
+    @for (tab of tabs; track $index) {
+      <button
+        role="tab"
+        class="tab"
+        [class.tab-active]="currentTab === tab.link"
+        (click)="activeTab.set(tab.link)"
+        (keydown)="activeTab.set(tab.link)"
+        [appAnalyticsClick]="'Options:Navigate:' + tab.name"
+        [class.hidden]="!tab.showIf()"
+      >
+        {{ tab.name }}
+      </button>
     }
   </div>
 
   <div class="p-3 max-h-[500px] overflow-y-auto">
-    @switch(currentTab) {
-    @case('ui') {
-    <app-panel-options-ui></app-panel-options-ui>
-    }
+    @switch (currentTab) {
+      @case ('ui') {
+        <app-panel-options-ui></app-panel-options-ui>
+      }
 
-    @case('debug') {
-    <app-panel-options-debug></app-panel-options-debug>
-    }
+      @case ('debug') {
+        <app-panel-options-debug></app-panel-options-debug>
+      }
 
-    @case('savefile') {
-    <app-panel-options-savefile></app-panel-options-savefile>
-    }
+      @case ('savefile') {
+        <app-panel-options-savefile></app-panel-options-savefile>
+      }
     }
   </div>
-
 </app-card-page>
