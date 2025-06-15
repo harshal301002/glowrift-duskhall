@@ -59,7 +59,7 @@
             <label
               [for]="'worldSize-' + $index"
               class="btn btn-block btn-secondary"
-              [class.btn-outline]="selectedWorldSize()?.id !== config.id"
+              [class.btn-outline]="selectedWorldSize().id !== config.id"
               appAnalyticsClick="Setup:World:{{ config.name }}"
               appSfx="ui-click"
               [sfxOffset]="$index"
