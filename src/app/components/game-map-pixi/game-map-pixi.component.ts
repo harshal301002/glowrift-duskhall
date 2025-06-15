@@ -24,11 +24,11 @@ import {
   showLocationMenu,
   windowHeightTiles,
   windowWidthTiles,
-  type LoadedTextures,
   type MapTileData,
-  type NodeSpriteData,
 } from '../../helpers';
 import { WorldLocation } from '../../interfaces';
+import { NodeSpriteData } from '../../interfaces/sprite';
+import { LoadedTextures } from '../../interfaces/texture';
 import { ContentService } from '../../services/content.service';
 import { LoggerService } from '../../services/logger.service';
 

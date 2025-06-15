@@ -87,12 +87,12 @@ export function createPlayerIndicator(
   y: number,
   container: Container,
   ticker: Ticker,
-): Graphics & { cleanup: () => void } {
+): Graphics {
   const pixelX = x * 64;
   const pixelY = y * 64;
 
   const graphics = new Graphics();
-  graphics.setStrokeStyle({ width: 4, color: 0x808080, alpha: 1 });
+  graphics.setStrokeStyle({ width: 4, color: 0xffffff, alpha: 1 });
   graphics.rect(pixelX, pixelY, 64, 64);
   graphics.stroke();
 
@@ -107,13 +107,9 @@ export function createPlayerIndicator(
   };
 
   ticker.add(animate);
-
-  const cleanup = () => ticker.remove(animate);
-  (graphics as any).cleanup = cleanup;
-
   container.addChild(graphics);
 
-  return graphics as Graphics & { cleanup: () => void };
+  return graphics;
 }
 
 /**
