@@ -186,14 +186,14 @@ export class GameMapPixiComponent implements OnInit, OnDestroy {
 
     mapData.forEach((row) => {
       row.forEach(({ x, y, nodeData }) => {
-        if (isAtNode(nodeData)) {
-          createPlayerIndicator(
-            x,
-            y,
-            this.playerIndicatorContainer!,
-            this.app!.ticker,
-          );
-        }
+        if (!isAtNode(nodeData)) return;
+
+        createPlayerIndicator(
+          x,
+          y,
+          this.playerIndicatorContainer!,
+          this.app!.ticker,
+        );
       });
     });
   }
