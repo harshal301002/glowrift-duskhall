@@ -1,15 +1,6 @@
 import { Container, Graphics, Sprite, Texture, Ticker } from 'pixi.js';
 import { WorldLocation } from '../interfaces';
-
-export interface NodeSpriteData {
-  terrain: Sprite;
-  object?: Sprite;
-  claimIndicator?: Sprite;
-}
-
-export interface NodeSprites {
-  [nodeKey: string]: NodeSpriteData;
-}
+import { NodeSpriteData } from '../interfaces/sprite';
 
 /**
  * Creates terrain and object sprites for a single map node

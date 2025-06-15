@@ -1,20 +1,5 @@
+import { CameraBounds, CameraState } from '../interfaces/camera';
 import { gamestate, updateGamestate } from './index';
-
-export interface CameraState {
-  x: number;
-  y: number;
-}
-
-export interface DragState {
-  isDragging: boolean;
-  lastPointerPosition: { x: number; y: number };
-  accumulatedDrag: { x: number; y: number };
-}
-
-export interface CameraBounds {
-  maxX: number;
-  maxY: number;
-}
 
 /**
  * Calculates camera bounds based on world and viewport dimensions
