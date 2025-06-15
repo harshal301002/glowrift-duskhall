@@ -6,7 +6,7 @@ import {
   inject,
   OnDestroy,
   OnInit,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import { Application, Container, Texture } from 'pixi.js';
 import {
@@ -39,8 +39,8 @@ import { ContentService } from '../../services/content.service';
   styleUrls: ['./game-map-pixi.component.scss'],
 })
 export class GameMapPixiComponent implements OnInit, OnDestroy {
-  @ViewChild('pixiContainer', { static: true })
-  pixiContainer!: ElementRef<HTMLDivElement>;
+  pixiContainer = viewChild<ElementRef>('pixiContainer');
+
   private contentService = inject(ContentService);
   private app?: Application;
   private mapContainer?: Container;
@@ -100,9 +100,9 @@ export class GameMapPixiComponent implements OnInit, OnDestroy {
   }
 
   private async initPixi() {
-    this.app = await initializePixiApp(this.pixiContainer.nativeElement, {
-      width: this.pixiContainer.nativeElement.clientWidth,
-      height: this.pixiContainer.nativeElement.clientHeight,
+    this.app = await initializePixiApp(this.pixiContainer()?.nativeElement, {
+      width: this.pixiContainer()?.nativeElement.clientWidth,
+      height: this.pixiContainer()?.nativeElement.clientHeight,
       backgroundAlpha: 0,
       antialias: false,
     });
@@ -113,7 +113,7 @@ export class GameMapPixiComponent implements OnInit, OnDestroy {
 
     this.resizeObserver = setupResponsiveCanvas(
       this.app,
-      this.pixiContainer.nativeElement,
+      this.pixiContainer()?.nativeElement,
     );
 
     this.setupMouseDragging();
