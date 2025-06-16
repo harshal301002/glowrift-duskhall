@@ -3,7 +3,6 @@ import {
   computed,
   effect,
   ElementRef,
-  signal,
   inject,
   OnDestroy,
   OnInit,
@@ -23,10 +22,14 @@ import {
   setupMapDragging,
   setupResponsiveCanvas,
   showLocationMenu,
+  calculateCameraBounds,
+  clampCameraPosition,
+  updateCameraPosition,
   windowHeight,
   windowWidth,
   type MapTileData,
 } from '../../helpers';
+import { options, setOption } from '../../helpers';
 import { WorldLocation } from '../../interfaces';
 import { NodeSpriteData } from '../../interfaces/sprite';
 import { LoadedTextures } from '../../interfaces/texture';
@@ -56,7 +59,6 @@ export class GameMapPixiComponent implements OnInit, OnDestroy {
   private playerIndicatorContainer?: Container;
   private resizeObserver?: ResizeObserver;
 
-  private zoomLevel = signal(1.0);
   private readonly minZoom = 0.5;
   private readonly maxZoom = 1.0; // 1.0 = 64x64 tiles
 
@@ -89,11 +91,26 @@ export class GameMapPixiComponent implements OnInit, OnDestroy {
     );
   });
 
+  zoomLevel() {
+    return typeof options().zoom === 'number' ? options().zoom : 1.0;
+  }
+
   constructor() {
     effect(() => {
       const mapData = this.map();
       if (this.app && this.mapContainer) {
         this.updateMap(mapData.tiles);
+      }
+    });
+    // React to zoom changes and resize canvas immediately
+    effect(() => {
+      if (this.app && this.mapContainer && this.playerIndicatorContainer) {
+        this.mapContainer.scale.set(this.zoomLevel());
+        this.playerIndicatorContainer.scale.set(this.zoomLevel());
+        this.app.renderer.resize(
+          this.pixiContainer()?.nativeElement.clientWidth,
+          this.pixiContainer()?.nativeElement.clientHeight,
+        );
       }
     });
   }
@@ -147,27 +164,7 @@ export class GameMapPixiComponent implements OnInit, OnDestroy {
     canvas.addEventListener('wheel', (event) => this.onWheel(event));
   }
 
-  private clampMapPosition() {
-    if (!this.mapContainer || !this.app) return;
-    const canvas = this.app.view as HTMLCanvasElement;
-    const viewWidth = canvas.width;
-    const viewHeight = canvas.height;
-    const mapWidth = this.mapContainer.width * this.zoomLevel();
-    const mapHeight = this.mapContainer.height * this.zoomLevel();
-
-    // Calculate min/max positions so the map stays within the viewport
-    const minX = Math.min(0, viewWidth - mapWidth);
-    const minY = Math.min(0, viewHeight - mapHeight);
-    const maxX = 0;
-    const maxY = 0;
-
-    this.mapContainer.position.x = Math.max(minX, Math.min(maxX, this.mapContainer.position.x));
-    this.mapContainer.position.y = Math.max(minY, Math.min(maxY, this.mapContainer.position.y));
-    if (this.playerIndicatorContainer) {
-      this.playerIndicatorContainer.position.x = this.mapContainer.position.x;
-      this.playerIndicatorContainer.position.y = this.mapContainer.position.y;
-    }
-  }
+  // Zooming now adjusts the camera instead of repositioning the PIXI containers.
 
   private onWheel(event: WheelEvent) {
     if (!this.mapContainer || !this.app) return;
@@ -176,10 +173,10 @@ export class GameMapPixiComponent implements OnInit, OnDestroy {
     // Calculate new zoom level
     const oldZoom = this.zoomLevel();
     const zoomDelta = event.deltaY < 0 ? 0.1 : -0.1;
-    let newZoom = this.zoomLevel() + zoomDelta;
+    let newZoom = oldZoom + zoomDelta;
     newZoom = Math.max(this.minZoom, Math.min(this.maxZoom, newZoom));
     if (newZoom === oldZoom) return;
-    this.zoomLevel.set(newZoom);
+    setOption('zoom', newZoom);
 
     // Get mouse position relative to the map container
     const rect = (this.app.view as HTMLCanvasElement).getBoundingClientRect();
@@ -191,18 +188,18 @@ export class GameMapPixiComponent implements OnInit, OnDestroy {
     const worldX = (mouseX - mapPos.x) / oldZoom;
     const worldY = (mouseY - mapPos.y) / oldZoom;
 
-    // Apply new zoom
-    this.mapContainer.scale.set(this.zoomLevel());
-    this.playerIndicatorContainer?.scale.set(this.zoomLevel());
+    // Set new scale
+    this.mapContainer.scale.set(newZoom);
+    this.playerIndicatorContainer?.scale.set(newZoom);
 
     // Adjust position so the world point under the cursor stays under the cursor
     this.mapContainer.position.set(
-      mouseX - worldX * this.zoomLevel(),
-      mouseY - worldY * this.zoomLevel(),
+      mouseX - worldX * newZoom,
+      mouseY - worldY * newZoom
     );
     this.playerIndicatorContainer?.position.set(
       this.mapContainer.position.x,
-      this.mapContainer.position.y,
+      this.mapContainer.position.y
     );
 
     // Clamp the map position so it doesn't go out of bounds
@@ -283,5 +280,27 @@ export class GameMapPixiComponent implements OnInit, OnDestroy {
 
   private investigateLocation(nodeData: WorldLocation) {
     showLocationMenu.set(nodeData);
+  }
+
+  private clampMapPosition() {
+    if (!this.mapContainer || !this.app) return;
+    const canvas = this.app.view as HTMLCanvasElement;
+    const viewWidth = canvas.width;
+    const viewHeight = canvas.height;
+    const mapWidth = this.mapContainer.width * this.mapContainer.scale.x;
+    const mapHeight = this.mapContainer.height * this.mapContainer.scale.y;
+
+    // Calculate min/max positions so the map stays within the viewport
+    const minX = Math.min(0, viewWidth - mapWidth);
+    const minY = Math.min(0, viewHeight - mapHeight);
+    const maxX = 0;
+    const maxY = 0;
+
+    this.mapContainer.position.x = Math.max(minX, Math.min(maxX, this.mapContainer.position.x));
+    this.mapContainer.position.y = Math.max(minY, Math.min(maxY, this.mapContainer.position.y));
+    if (this.playerIndicatorContainer) {
+      this.playerIndicatorContainer.position.x = this.mapContainer.position.x;
+      this.playerIndicatorContainer.position.y = this.mapContainer.position.y;
+    }
   }
 }

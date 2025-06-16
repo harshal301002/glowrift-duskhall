@@ -8,4 +8,5 @@ export type GameOption =
 export type GameOptions = Record<GameOption, boolean> & {
   uiTheme: string;
   volume: number;
+  zoom: number;
 };

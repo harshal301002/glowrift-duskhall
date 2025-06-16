@@ -15,6 +15,8 @@ export function defaultOptions(): GameOptions {
     uiTheme: 'dark',
 
     volume: 0.5,
+
+    zoom: 1.0,
   };
 }
 
